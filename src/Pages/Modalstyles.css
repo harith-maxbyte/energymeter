@@ -1,0 +1,27 @@
+.customButton {
+    width: 60px;
+    height: 2.5rem;
+    letter-spacing: 0.5px;
+    background-color: #307a28;
+    color: white;
+    font-size: 12px;
+    border: 1.5px solid #307a28;
+    cursor: pointer;
+    }
+
+.active{
+    background-color: rgb(25, 26, 24);
+    }
+.calendaricon{
+    background-color:"red"
+}
+
+   /* mobile screens */
+    @media (max-width:480px){
+        .customButton {display:none}
+    }
+    
+    /* For Tablets
+    @media (max-width:960px){
+        .customButton {display:none}
+    } */
