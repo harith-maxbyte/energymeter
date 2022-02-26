@@ -29,10 +29,10 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 
 
-const Topbar = (props) => {
+const Topbar = ({ classes, onToggleSidebar, isSidebarOpen }) => {
 
-  const { classes, onToggleSidebar, isSidebarOpen } = props
-  
+  // const { classes, onToggleSidebar, isSidebarOpen } = props
+
   const history = useHistory();
   let email = localStorage.getItem("email")
   const handleSignOut = () => {
@@ -51,13 +51,13 @@ const Topbar = (props) => {
             size="large"
           >
             {isSidebarOpen === false ? <i className='bx bx-menu' style={{ color: "#fff" }}></i> : ""}
-            {/* <AiOutlineCloseCircle size={25} color="white" /> */}
+
           </IconButton>
 
           <div className={classes.Title}>
 
 
-            <img src={Logo} alt="logo" height={32} />
+            <div className={classes.logotag}><img src={Logo} alt="logo" height={32} /></div>
             <center className={classes.energy}>Energy Meter Dashboard</center>
 
           </div>
@@ -73,9 +73,6 @@ const Topbar = (props) => {
               </div>
             </button>
           </LightTooltip>
-
-
-
         </div>
       </header>
       <div className={classes.Toolbar} />

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Grid, Card, Paper, Divider } from '@mui/material';
+import { Grid, Card, Paper, Divider, IconButton } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
-import { BiShare } from 'react-icons/bi'
 import Chart from 'react-apexcharts'
-import { GiElectric } from 'react-icons/gi';
-import { TiArrowBackOutline } from 'react-icons/ti';
+import Device from "./Device"
 import axios from 'axios';
 import Dashstyles2 from './Dashboardstyles2'
 import { Link } from "react-router-dom";
 import moment from 'moment';
-
+import electricity from '../assets/images/png/electricity.png';
+import highVoltage from "../assets/images/png/high-voltage.png"
+import { START_TIME, END_TIME } from "../Helpers/Constatnt"
 
 /**
  * @class
@@ -38,16 +38,18 @@ class Dashboard2 extends Component {
 	}
 
 	componentDidMount() {
-		axios.get(`https://janaaticsfunctionapp.azurewebsites.net/api/GetTimeSeriesData?code=5rUZrumKciSJ7bfhQjR38Qxkk7nUhTNR63phSsDHQOyRCisQ3CeuBA==&deviceid=EWON_FLEXY103&startTime=1640154346&endTime=1640154396`)
+		axios.get(`https://janaaticsfunctionapp.azurewebsites.net/api/GetTimeSeriesData?code=5rUZrumKciSJ7bfhQjR38Qxkk7nUhTNR63phSsDHQOyRCisQ3CeuBA==&deviceid=EWON_FLEXY103&startTime=${START_TIME}&endTime=${END_TIME}`)
 			.then(res => {
 				this.setState({ val: res.data });
 			})
 			.then(v => {
 				var t = []
+
 				// eslint-disable-next-line
 				this.state.val && this.state.val.length > 0 && this.state.val.map((v) => {
-					var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
-					t.push(JSON.parse(parsed))
+					// var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
+					// t.push(JSON.parse(parsed))
+					t.push(JSON.parse(v.data))
 				})
 
 				if ((t.pop().Current) && (!t.pop().Current1)) {
@@ -122,8 +124,8 @@ class Dashboard2 extends Component {
 
 		// eslint-disable-next-line
 		this.state.val && this.state.val.length > 0 && this.state.val.map((v) => {
-			var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
-			totaldatas.push(JSON.parse(parsed))
+			// var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
+			totaldatas.push(JSON.parse(v.data))
 		})
 
 		// eslint-disable-next-line
@@ -162,15 +164,19 @@ class Dashboard2 extends Component {
 			xaxis: {
 				type: 'datetime',
 				categories: time,
-				// min: new Date(new Date().setHours(0, 0, 0, 0)).getTime(), // start date
-				// max: new Date(new Date().setHours(24, 0, 0, 0)).getTime(), // end date
-				tickAmount: 6, // interval you want
+				tickAmount: 7,
 				labels: {
 					show: true,
-					formatter: function (val, timestamp) {
-						return moment(new Date(timestamp)).format("HH:mm:ss"); // formats to hours:minutes
+					formatter: function (val) {
+						return moment(new Date(val)).format("h:mm a")
 					}
-				}
+				},
+				tooltip: {
+					enabled: false,
+					formatter: function (val) {
+						return moment(new Date(val)).format("dddd, MMMM Do YYYY")
+					}
+				},
 			},
 			stroke: {
 				width: 2,
@@ -183,7 +189,7 @@ class Dashboard2 extends Component {
 				}
 			},
 			title: {
-				text: "Current(A)",
+				text: "Current (A)",
 				align: 'left',
 				offsetX: 7,
 				offsetY: 7,
@@ -195,7 +201,13 @@ class Dashboard2 extends Component {
 				},
 			},
 			tooltip: {
-				theme: "dark",
+				theme: 'dark',
+				x: {
+					format: 'dd MMM',
+					formatter: function (val) {
+						return moment(new Date(val)).format("ddd, Do MMM YYYY, h:mm:ss a")
+					}
+				},
 			},
 
 			// fill: {
@@ -264,8 +276,8 @@ class Dashboard2 extends Component {
 
 		// eslint-disable-next-line
 		this.state.val && this.state.val.length > 0 && this.state.val.map((v) => {
-			var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
-			totaldatas.push(JSON.parse(parsed))
+			// var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
+			totaldatas.push(JSON.parse(v.data))
 		})
 
 		// eslint-disable-next-line
@@ -306,20 +318,32 @@ class Dashboard2 extends Component {
 			xaxis: {
 				type: 'datetime',
 				categories: time,
-				// min: new Date(new Date().setHours(0, 0, 0, 0)).getTime(), // start date
-				// max: new Date(new Date().setHours(24, 0, 0, 0)).getTime(), // end date
-				tickAmount: 6, 
+				tickAmount: 7,
 				labels: {
 					show: true,
-					formatter: function (val, timestamp) {
-						return moment(new Date(timestamp)).format("HH:mm:ss"); // formats to hours:minutes
+					formatter: function (val) {
+						return moment(new Date(val)).format("h:mm a")//"h:mm a"
 					}
-				}
-
+				},
+				tooltip: {
+					enabled: false,
+					formatter: function (val) {
+						return moment(new Date(val)).format("dddd, MMMM Do YYYY")
+					}
+				},
 			},
 			stroke: {
 				width: 2,
 				curve: 'smooth',
+			},
+			tooltip: {
+				theme: 'dark',
+				x: {
+					format: 'dd MMM',
+					formatter: function (val) {
+						return moment(new Date(val)).format("ddd, Do MMM YYYY, h:mm:ss a")
+					}
+				},
 			},
 			dataLabels: {
 				enabled: false,
@@ -328,7 +352,7 @@ class Dashboard2 extends Component {
 				}
 			},
 			title: {
-				text: "Voltage(V)",
+				text: "Voltage (V)",
 				align: 'left',
 				offsetX: 7,
 				offsetY: 7,
@@ -339,9 +363,7 @@ class Dashboard2 extends Component {
 					fontFamily: "Roboto, sans-serif",
 				},
 			},
-			tooltip: {
-				theme: "dark"
-			},
+
 
 			fill: {
 				opacity: 1
@@ -375,7 +397,7 @@ class Dashboard2 extends Component {
 					show: true,
 					zoom: {
 						enabled: true,
-					}
+					},
 				},
 				dropShadow: {
 					enabled: true,
@@ -387,7 +409,13 @@ class Dashboard2 extends Component {
 				},
 				zoom: {
 					enabled: true,
-				}
+				},
+				// tooltip: {
+				// 	enabled: true,
+				// 	formatter: function (val, timestamp) {
+				// 		return moment(val).format("dddd, MMMM Do YYYY, h:mm:ss a")
+				// 	}
+				// },
 
 			},
 			colors: ['#eb5255', '#FFA500', '#33b2df'],
@@ -407,8 +435,8 @@ class Dashboard2 extends Component {
 
 		// eslint-disable-next-line
 		this.state.val && this.state.val.length > 0 && this.state.val.map((v) => {
-			var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
-			totaldatas.push(JSON.parse(parsed))
+			// var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
+			totaldatas.push(JSON.parse(v.data))
 		})
 
 		// totaldatas.map((v => {
@@ -457,13 +485,28 @@ class Dashboard2 extends Component {
 				categories: time,
 				// min: new Date(new Date().setHours(0, 0, 0, 0)).getTime(), // start date
 				// max: new Date(new Date().setHours(24, 0, 0, 0)).getTime(), // end date
-				tickAmount: 6, // interval you want
+				tickAmount: 7, // interval you want
 				labels: {
 					show: true,
-					formatter: function (val, timestamp) {
-						return moment(new Date(timestamp)).format("HH:mm:ss"); // formats to hours:minutes
+					formatter: function (val) {
+						return moment(new Date(val)).format("h:mm a")
 					}
-				}
+				},
+				tooltip: {
+					enabled: false,
+					formatter: function (val) {
+						return moment(new Date(val)).format("dddd, MMMM Do YYYY")
+					}
+				},
+			},
+			tooltip: {
+				theme: 'dark',
+				x: {
+					format: 'dd MMM',
+					formatter: function (val) {
+						return moment(new Date(val)).format("ddd, Do MMM YYYY, h:mm:ss a")
+					}
+				},
 			},
 			stroke: {
 				width: 2,
@@ -476,7 +519,7 @@ class Dashboard2 extends Component {
 				}
 			},
 			title: {
-				text: "Load(L)",
+				text: "Load (kWH)",
 				align: 'left',
 				offsetX: 7,
 				offsetY: 7,
@@ -486,9 +529,6 @@ class Dashboard2 extends Component {
 					color: "rgb(33, 33, 33)",
 					fontFamily: "Roboto, sans-serif",
 				},
-			},
-			tooltip: {
-				theme: "dark"
 			},
 
 			fill: {
@@ -550,14 +590,9 @@ class Dashboard2 extends Component {
 
 		// eslint-disable-next-line
 		this.state.val && this.state.val.length > 0 && this.state.val.map((v) => {
-			var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
-			totaldatas.push(JSON.parse(parsed))
+			// var parsed = [v.data.slice(0, 1), '"', v.data.slice(1)].join('');
+			totaldatas.push(JSON.parse(v.data))
 		})
-		// totaldatas.map((v => {
-		// 	time.push(this.timeConverter(v.Timestamp))
-		// 	// time.push(v.Timestamp)
-		// 	current.push(v.Powerfactor)
-		// }))
 
 		// eslint-disable-next-line
 		totaldatas.map((v => {
@@ -599,13 +634,19 @@ class Dashboard2 extends Component {
 				categories: time,
 				// min: new Date(new Date().setHours(0, 0, 0, 0)).getTime(), // start date
 				// max: new Date(new Date().setHours(24, 0, 0, 0)).getTime(), // end date
-				tickAmount: 6, // interval you want
+				tickAmount: 7, // interval you want
 				labels: {
 					show: true,
-					formatter: function (val, timestamp) {
-						return moment(new Date(timestamp)).format("HH:mm:ss"); // formats to hours:minutes
+					formatter: function (val) {
+						return moment(val).format("h:mm a")
 					}
-				}
+				},
+				tooltip: {
+					enabled: false,
+					formatter: function (val) {
+						return moment(new Date(val)).format("dddd, MMMM Do YYYY")
+					}
+				},
 			},
 
 			stroke: {
@@ -619,7 +660,7 @@ class Dashboard2 extends Component {
 				}
 			},
 			title: {
-				text: "Power factor(PF)",
+				text: "Power Factor (kW)",
 				align: 'left',
 				offsetX: 7,
 				offsetY: 7,
@@ -631,9 +672,14 @@ class Dashboard2 extends Component {
 				},
 			},
 			tooltip: {
-				theme: "dark"
+				theme: 'dark',
+				x: {
+					format: 'dd MMM',
+					formatter: function (val) {
+						return moment(new Date(val)).format("ddd, Do MMM YYYY, h:mm:ss a")
+					}
+				},
 			},
-
 			fill: {
 				opacity: 1
 			},
@@ -688,99 +734,100 @@ class Dashboard2 extends Component {
 		const { classes } = this.props;
 		return (
 			<>
-				<div className={classes.device}>
-					{/* <Link style={{ textDecoration: 'none', color: 'white' }} to="/1">
-						<TiArrowBackOutline size={18} />
-					</Link> */}
-					<Link style={{ textDecoration: 'none', color: 'white' }} to="/1">
-						<p style={{ display: "contents", paddingLeft: '.5rem', fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: "15px", color: "#fff" }}><TiArrowBackOutline size={18} />Laser Bar Code Printer</p>
-					</Link>
+				<div style={{ margin: 0, padding: 0, display: "flex", justifyContent: "flex-end", transition: "width 2s" }}>
+					<img src="https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/58/000000/external-live-radio-vitaliy-gorbachev-flat-vitaly-gorbachev.png" alt="live" />
 				</div>
+				<div className={classes.device}>
+					<Link style={{ textDecoration: 'none', color: 'white' }} to="/energy-meter-dashboard">
+						<IconButton color="inherit" className={classes.myClassName}>
+							<i className='bx bx-arrow-back'></i>
+						</IconButton>
+					</Link>
+					<span style={{ display: "contents", fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: "15px", color: "#fff" }}>
+						<Device />
+					</span>
+
+				</div>
+
 
 				<Grid container spacing={3}>
 					<Grid item xs={12} sm={6} md={3}>
 						<Paper className={classes.carda}>
 							<div className={classes.card__actions__total}>
-								<div className={classes.card__actions}>
-									<div className={classes.rounded}>
-										<GiElectric size={25} color="#FFFFFF" />
-									</div>
-								</div>
+								<img src={electricity} style={{ position: "relative", top: "-5%", maxWidth: "20%", height: "auto" }} alt="electricity" />
 								<div className={classes.card__actions1}>
-									<div className={classes.topval} style={{ color: "#fff" }}>
-										AVG Current(A)
+									<div className={classes.topval} style={{ color: "black" }}>
+										Avg<span style={{ fontSize: "1rem" }}>.</span> Current(A)
 									</div>
-									<div className={classes.belowval} style={{ color: "#fff" }}>{this.state.current}</div>
+									<div className={classes.belowval} style={{ color: "black" }}>{this.state.current}</div>
 								</div>
 							</div>
 						</Paper>
 					</Grid>
 					<Grid item xs={12} sm={6} md={3}>
 
-						<Paper className={classes.carda}>
+						<Paper className={classes.cardb}>
 							<div className={classes.card__actions__total}>
-								<div className={classes.card__actions}>
-									<div className={classes.rounded}>
-										<GiElectric size={25} color="#FFFFFF" />
-									</div>
-								</div>
+								<img src={highVoltage} style={{ position: "relative", top: "-5%", maxWidth: "20%", height: "auto" }} alt="electricity" />
 								<div className={classes.card__actions1}>
-									<div className={classes.topval} style={{ color: "#fff" }}>AVG Voltage(A)</div>
-									<div className={classes.belowval} style={{ color: "#fff" }}>{this.state.voltage}</div>
+									<div className={classes.topval} style={{ color: "black" }}>Avg<span style={{ fontSize: "1rem" }}>.</span> Voltage(V)</div>
+									<div className={classes.belowval} style={{ color: "black" }}>{this.state.voltage}</div>
 								</div>
 							</div>
 						</Paper>
 					</Grid>
+
 					<Grid item xs={12} sm={6} md={3}>
-						<Paper className={classes.carda1} style={{ color: "#fff" }}>
+						<Paper className={classes.carda1} style={{ color: "black" }}>
 							<span className={classes.rdtitle}>Load</span>
 
 							<Divider style={{ background: "#fff" }} />
 							<div className={classes.unorderlist}>
-								<p style={{ padding: 6, lineHeight: 1, margin: 0, paddingRight: "8%", fontSize: "14px" }}>Power KW</p>
-								<span style={{ padding: 6, lineHeight: 1, margin: 0, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>{this.state.energy}</span>
+								<p className={classes.Loadtitle}>Power KW</p>
+								<p className={classes.Loadvalue}>{this.state.energy}</p>
 							</div>
 							<div className={classes.unorderlist}>
-								<p style={{ padding: 6, lineHeight: 1, margin: 0, paddingRight: "19%", fontSize: "14px" }}>KWh</p>
-								<span style={{ padding: 6, lineHeight: 1, margin: 0, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>0.00</span>
+								<p className={classes.Loadtitle}>KWH</p>
+								<p className={classes.Loadvalue}>0.00</p>
 							</div>
 							<div className={classes.unorderlist}>
-								<p style={{ padding: 6, lineHeight: 1, margin: 0, paddingRight: "17%", fontSize: "14px" }}>KVAH</p>
-								<span style={{ padding: 6, lineHeight: 1, margin: 0, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>0.00</span>
+								<p className={classes.Loadtitle}>KVAH</p>
+								<p className={classes.Loadvalue}>0.00</p>
 							</div>
-
 							<div className={classes.unorderlist}>
-								<p style={{ padding: 6, lineHeight: 1, margin: 0, marginLeft: -25, fontSize: "14px" }}>Power Factor</p>
-								<span style={{ padding: 6, lineHeight: 1, margin: 0, marginRight: -15, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>{this.state.Powerfactor}</span>
+								<p className={classes.Loadtitle}>Power Factor</p>
+								<p className={classes.Loadvalue}>{this.state.Powerfactor}</p>
 							</div>
-
 						</Paper>
 					</Grid>
 
-
 					<Grid item xs={12} sm={6} md={3}>
-						<Paper className={classes.carda1} style={{ color: "#fff" }}>
-							<div className={classes.rd1title} style={{ fontWeight: "500" }}>
-								<span style={{ paddingLeft: "11%", fontWeight: "500" }}>Phase</span>
+						<Paper className={classes.carda2} style={{ color: "black", background: "#F4CC44" }}>
+							<div className={classes.rd1title} style={{ fontWeight: "600" }}>
+								<span style={{ paddingLeft: "5%" }}>Phase</span>
 								<span>Current(A)</span>
 								<span>Voltage(V)</span>
 							</div>
 							<Divider style={{ background: "#fff" }} />
-							<div className={classes.unorderlist}>
-								<p style={{ padding: 7, margin: 0, marginLeft: 2, lineHeight: 1.5, fontSize: "14px" }}>phase 1</p>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>{this.state.current}</p>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>{this.state.voltage}</p>
+							<div className={classes.unorderlist1}>
+								<p className={classes.phase}>Phase 1</p>
+								<p className={classes.phase}>{this.state.current}</p>
+								<p className={classes.phase}>{this.state.voltage}</p>
 							</div>
-							<div className={classes.unorderlist}>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, fontSize: "14px" }}>phase 2</p>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>0.00</p>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>00.00</p>
-							</div>
-							<div className={classes.unorderlist}>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, fontSize: "14px" }}>phase 3</p>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>0.00</p>
-								<p style={{ padding: 7, margin: 0, lineHeight: 1.5, color: "#4f77ea", fontSize: "14px", color: "#fff" }}>00.00</p>
-							</div>
+							{this.state.energy1 !== 0.00 &&
+								<div className={classes.unorderlist1}>
+									<p className={classes.phase}>Phase 2</p>
+									<p className={classes.phase}>0.00</p>
+									<p className={classes.phase}>00.00</p>
+								</div>
+							}
+							{this.state.energy2 !== 0.00 &&
+								<div className={classes.unorderlist1}>
+									<p className={classes.phase}>Phase 3</p>
+									<p className={classes.phase}>0.00</p>
+									<p className={classes.phase}>00.00</p>
+								</div>
+							}
 
 						</Paper>
 					</Grid>
@@ -811,8 +858,6 @@ class Dashboard2 extends Component {
 					</Grid>
 				</Grid>
 				<Card>
-
-
 				</Card>
 			</>
 		);

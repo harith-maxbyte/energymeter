@@ -1,32 +1,20 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Box, Grid, Avatar, Typography } from '@mui/material';
 import { AiOutlineUnlock } from "react-icons/ai";
 import axios from "axios";
-import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ENDPOINT } from "../../Helpers/Constatnt";
-// import Dashboard1 from '../Dashboard1';
-// import { Redirect, Route, NavLink } from "react-router-dom";
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Logo from '../../assets/images/png/byte-Operations-logo.png';
 import poster from '../../assets/poster.jpeg';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
 
 function Copyright(props) {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props} style={{ fontSize: "15px", fontWeight: 500, color: "#4251A3" }}>
+        <Typography variant="body2" color="text.secondary" align="center" {...props} style={{ fontSize: "15px", fontFamily:"Poppins, sans-serif", fontWeight: 500, color: "#1d1b31" }}>
             {'Copyright © '}
-            <Link color="inherit" href="https://maxbyte.co/">
+            <Link color="inherit" href="https://maxbyte.co/" target={"_blank"}>
                 Maxbyte Technologies
             </Link>{' '}
             {new Date().getFullYear()}
@@ -38,74 +26,39 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide(props) {
-    const { register, handleSubmit, formState: { errors, password }, } = useForm()
+    const { register, handleSubmit, formState: { errors }, } = useForm()
     const [msg, setMsg] = React.useState("")
 
-
-
-
-
-
-    // React.useEffect(() => {
-
-    //     const user = {
-    //         Email: "a@a.a",
-    //         password: "123",
-    //     };
-    //     // const options = {
-    //     //     // method: 'POST',
-    //     //     headers: {
-    //     //         // 'Accept': 'application/json',
-    //     //         // 'Content-Type': 'application/json;charset=UTF-8',
-    //     //         "Access-Control-Allow-Origin": "*",
-    //     //         // "Cross-Origin": "true",
-    //     //     }
-    //     // }
-
-    //     // axios.post(`${ENDPOINT}/auth`, user)
-    //     //     .then((res) => {
-    //     //         console.log("RESPONSE RECEIVED: ", res);
-    //     //     })
-    //     //     .catch((err) => {
-    //     //         console.log("AXIOS ERROR: ", err);
-    //     //     })
-    //     axios.post(`${ENDPOINT}/auth`, user, {
-    //         headers: {
-    //             // "Access-Control-Allow-Origin": "*",
-    //             'content-type': 'text/json'
-    //         }
-    //     });
-
-    // }, [])
-
-
-
     const submit = (event) => {
-        // console.log(event)
         const user = {
             Email: event.email,
             password: event.password,
         };
 
-
         axios({
             method: 'post',
-            // mode: 'no-cors',
             url: `${ENDPOINT}/auth`,
             data: user,
         })
             .then(res => {
-                // console.log(res); //Total response
                 localStorage.removeItem("auth-token")
                 localStorage.setItem("auth-token", JSON.stringify(res.data.payload.jwt))
                 localStorage.setItem("email", event.email)
-                props.history.push("/1", event.email)
+                props.history.push("/energy-meter-dashboard", event.email)
+                toast.success('Logged In!!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .catch(err => {
                 // console.log(`Invalid Credentials->${err}`);
                 setMsg('Invalid Credentials')
             });
-
     };
 
     return (
@@ -145,10 +98,10 @@ export default function SignInSide(props) {
                         style={{ width: "22rem", margin: "10rem 8rem" }}
                     >
                         <img src={Logo} alt="Byte-Operations" />
-                        <Avatar sx={{ m: 1, bgcolor: '#223357' }}>
+                        <Avatar sx={{ m: 1, bgcolor: '#1d1b31' }}>
                             <AiOutlineUnlock />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" style={{fontFamily:"Poppins, sans-serif",fontWeight:"500"}}>
                             Sign in
                         </Typography>
                         {msg ? <h4 style={{ color: "red" }}>{msg}</h4> : ""}
@@ -200,6 +153,7 @@ export default function SignInSide(props) {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
+                                style={{ background: "#1d1b31" }}
                             >
                                 Sign In
                             </Button>

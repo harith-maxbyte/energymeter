@@ -17,25 +17,25 @@ const Routes = () => {
       <Router>
         <Switch>
           <Route
-           exact 
+            exact
             path="/"
             component={Login}
           />
           <MainRoute
             exact
-            path="/1"
+            path="/energy-meter-dashboard"
             layout={MainLayout}
-            component= {DashboardPage1}
+            component={DashboardPage1}
           />
 
           <MainRoute
             exact
-            path="/2"
+            path="/energy-meter-real-time"
             layout={MainLayout}
             component={DashboardPage2}
           />
 
-          <Route path="*" component={() => <center><h2>Development in progress...</h2></center>} />
+          <Route path="*" component={() => <center><h4>Invalid URL...</h4></center>} />
 
         </Switch>
       </Router>

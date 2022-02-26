@@ -1,25 +1,28 @@
 
 const Dashboardstyles1 = theme => ({
-    '@global': {
-        '*::-webkit-scrollbar': {
-            width: '0rem',
-        },
-        '*::-webkit-scrollbar-track': {
-            background: 'rgb(227, 235, 235)'
-        },
-        '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#223357',
-            borderRadius: "8px",
-            backgroundClip: "padding-box",
+    // '@global': {
+    //     '*::-webkit-scrollbar': {
+    //         width: '0rem',
+    //     },
+    //     '*::-webkit-scrollbar-track': {
+    //         background: 'rgb(227, 235, 235)'
+    //     },
+    //     '*::-webkit-scrollbar-thumb': {
+    //         backgroundColor: '#223357',
+    //         borderRadius: "8px",
+    //         backgroundClip: "padding-box",
+    //     }
+    // },
+    myClassName: {
+        backgroundColor: "#1d1b31",
+        position: "relative",
+        "&:hover": {
+            backgroundColor: "rgb(227, 235, 235)",
+            color: "black",
+            transition: "0.9s",
+            transform: "rotate(90deg)",
         }
     },
-    myClassName: {
-		backgroundColor: "#384480",
-		position: "relative",
-		"&:hover": {
-			backgroundColor: "rgb(25, 26, 24)"
-		}
-	},
     userimage: {
         backgroundColor: "transparent",
         borderRadius: '50%',
@@ -36,24 +39,50 @@ const Dashboardstyles1 = theme => ({
     device: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-
     },
-    [theme.breakpoints.down('sm')]: {
+    machinetitle: {
+        paddingLeft: '1rem',
+        color: "#fff",
+        fontFamily: "Nunito, sans-serif",
+        fontSize: "15px",
+        margin: 0
+    },
+    [theme.breakpoints.down('xl')]: {
+        device: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+        },
+    },
+    [theme.breakpoints.between('xs', 'md')]: {
         device: {
             display: "none"
         },
+    },
+    [theme.breakpoints.up('xl')]: {
+        device: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+        }
     },
     [theme.breakpoints.between('sm', 'lg')]: {
-        device: {
-            display: "none"
-        },
+        // device:{
+        //     display:"none"
+        // },
         dashboardbtn: {
             display: "none"
-        },
-        // carda:{
-        //     width: "5rem",
-        // }
+        }
+    },
+    firstcarda: {
+        height: 395,
+        borderRadius: "15px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "rgb(33, 33, 33)",
+        fontFamily: "Nunito, sans-serif"
     },
     dashboardbtn: {
         display: "flex",
@@ -61,28 +90,37 @@ const Dashboardstyles1 = theme => ({
         marginTop: ".5rem"
     },
     first: {
-        display: "inline-block",
-        margin: "0 2rem"
+        display: "flex",
+        justifyContent: "space-evenly",
+        alignItems: "center"
+    },
+    [theme.breakpoints.up('lg')]: {
+        firstinnertxt: {
+            margin: 0
+        }
     },
     firstinnertxt: {
         textAlign: "center",
         display: "inline-block",
-        padding: "0 2rem"
     },
     [theme.breakpoints.down('lg')]: {
         firstinnertxt: {
             textAlign: "center",
             display: "inline-block",
             padding: "0 2rem",
-            marginTop: "-50%"
         },
     },
     second: {
-        display: "inline-block",
-        margin: ".5rem 2rem"
+        display: "flex",
+        justifyContent: "space-evenly",
+        alignItems: "center"
+    },
+    [theme.breakpoints.down('sm')]: {
+        second: {
+            marginTop: "50% 50%",
+        },
     },
     stickyColumn: {
-        position: "-webkit-sticky;", /* Safari */
         position: "sticky",
         top: 0,
     },
@@ -94,15 +132,16 @@ const Dashboardstyles1 = theme => ({
     },
     carda: {
         padding: '20px',
-        width: "fit-content",
+        width: "80%",
         boxShadow: '5px 5px 5px grey',
         borderRadius: '15px',
-        color: "#fff",
+        color: "black",
         fontWeight: "500",
         fontSize: "17px",
         marginBottom: "1rem",
-        backgroundColor: "#223357"
+        backgroundColor: "#F4CC44"//#FEC9B4 //#223357 
     },
+
     card__actions__total: {
         display: 'flex',
         alignItems: 'center',
@@ -168,6 +207,25 @@ const Dashboardstyles1 = theme => ({
     charts: {
         boxShadow: '5px 5px 5px grey',
         borderRadius: '15px',
+    },
+    shiftHeader: {
+        border: "1px solid grey",
+        width: "80%",
+        background: "#57B78C",
+        fontWeight: "normal",
+        color: "black",
+        fontFamily: "Nunito, sans-serif",
+        boxShadow: '5px 5px 5px grey',
+        borderRadius: '15px',
+        padding: "2%"
+    },
+    tableHeader: {
+        fontWeight: "bold",
+        background: "#1d1b31",
+        color: "#fff",
+        fontFamily: "Nunito, sans-serif",
+        padding: "8px",
+        margin: 0
     }
 
 });

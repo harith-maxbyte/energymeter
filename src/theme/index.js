@@ -1,11 +1,10 @@
 // @ts-nocheck
-import { unstable_createMuiStrictModeTheme as createTheme, adaptV4Theme } from '@mui/material/styles';
-import palette from './palette';
+import { unstable_createMuiStrictModeTheme as createTheme } from '@mui/material/styles';
 import typography from './typography';
 
 // read more at https://material-ui.com/customization/themes
-const theme = createTheme(adaptV4Theme({
-  palette: palette,
+const theme = createTheme(({
+ 
   typography,
   zIndex: {
     appBar: 1200,

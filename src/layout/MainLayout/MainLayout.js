@@ -7,11 +7,12 @@ import { Topbar } from './components';
 import Newsidebar from "./components/Newsidebar/Newsidebar";
 import styles from './styles';
 import useMediaQuery from '@mui/material/useMediaQuery'
+
 export const withMediaQuery = (queries = []) => Component => props => {
 	const mediaProps = {}
 	queries.forEach(q => {
 		mediaProps[q[0]] = useMediaQuery(q[1])
-	})
+	}) 
 	return <Component {...mediaProps} {...props} />
 }
 
@@ -49,17 +50,16 @@ class AdminLayout extends Component {
 		const { title, children, classes, isDesktop } = this.props;
 		const shouldOpenSidebar = isOpen;
 
-
 		return (
 			<Fragment>
 				<Topbar
 					title={title}
-					//classes={{ paper: classes.drawerPaper }}
-					ToolbarClasses={classes.topbar}
+					// classes={{ paper: classes.drawerPaper }}
+					// ToolbarClasses={classes.topbar}
 					isSidebarOpen={shouldOpenSidebar}
 					onToggleSidebar={() => this.handleToggleOpen()}
 					variant={isDesktop ? "persistent" : 'temporary'}
-					// ref={this.wrapper}
+				// ref={this.wrapper}
 
 				/>
 				<Drawer
@@ -68,18 +68,20 @@ class AdminLayout extends Component {
 					open={shouldOpenSidebar}
 					onClose={() => this.handleClose()}
 					variant={isDesktop ? "persistent" : 'temporary'}
-					//ref={this.wrapper}
+				// ref={this.wrapper}
 				>
-					{/* <Sidebar className={classes.sidebar} /> */}
-					<Newsidebar/>
+					<Newsidebar />
 				</Drawer>
 
 				<main
-					//ref={this.wrapper}
-					className={classnames({
+					// ref={this.wrapper}
+					className={
+						classnames({
 						[classes.contentShift]: isDesktop ? isOpen : false,
 						[classes.content]: true
-					})}>
+					})
+				}
+				>
 					{children}
 				</main>
 			</Fragment>

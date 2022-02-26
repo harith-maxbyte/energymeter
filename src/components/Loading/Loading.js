@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
 	root: { background: "transparent", height: '100vh', display: "flex", justifyContent: 'center', alignItems:"center" },
-	progress: { color: "#11101D" }
+	progress: { color: "#1d1b31" }
 }));
 const Loading = () => {
 	const classes = useStyles();

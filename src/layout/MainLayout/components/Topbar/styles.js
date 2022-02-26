@@ -1,5 +1,3 @@
-// import { textAlign } from "@mui/system";
-
 const styles = theme => ({
 	// root: {
 
@@ -24,7 +22,6 @@ const styles = theme => ({
 		marginLeft: "3px",
 		transition: "all 0.2s ease-in-out 0s",
 		borderRadius: "8px",
-
 	},
 	Navbar: {
 		backgroundcolor: "lightsteelblue",
@@ -35,13 +32,10 @@ const styles = theme => ({
 		boxSizing: "border-box",
 		fontSize: "18px",
 		fontWeight: "bold",
-		/* font-family: Roboto; */
 		width: "100%",
 		zIndex: "1000",
 		boxShadow: "0px 0px 5px silver",
-
 	},
-
 	Toolbar: {
 		display: "flex",
 		minHeight: "56px",
@@ -49,15 +43,21 @@ const styles = theme => ({
 		padding: "0px 10px",
 	},
 	energy: {
-		display: "inline",
+		display: "flex",
+		justifyContent: "center",
+		marginTop: "-35px",
 		fontSize: "20px",
 		[theme.breakpoints.down('md')]: {
 			display: "none",
 		},
-		marginLeft: "24rem"
-
+		// marginLeft: "24rem"
 	},
-	
+	logotag: {
+		marginLeft: "-3rem",
+		[theme.breakpoints.down('md')]: {
+			margin:0
+		},
+	},
 	userimage: {
 		width: 30,
 		height: 30,
@@ -72,11 +72,10 @@ const styles = theme => ({
 		fontFamily: "Nunito, sans-serif"
 	},
 	Logo: {
-		marginRight: "10px",
+		// marginRight: "1px",
 		marginBottom: 0,
 		marginTop: 0,
 	},
-
 	Title: {
 		flexGrow: 1,
 		marginLeft: "5rem",
@@ -88,8 +87,11 @@ const styles = theme => ({
 		energy: {
 			display: "none"
 		},
-		Title:{
-			marginLeft:1
+		logotag:{
+			margin:0
+		},
+		Title: {
+			marginLeft: 1
 		}
 	},
 

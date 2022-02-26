@@ -1,6 +1,7 @@
 const defaultState = {
     btn: "",
-
+    custombtn:[],
+    
     energydaily: [],
     shiftdaily: [],
     energyweekly: [],
@@ -22,6 +23,9 @@ const loggedReducer = (state = defaultState, action) => {
 
         case 'SELECTED_BTN_':
             return { ...state, btn: action.data }
+        case 'CUSTOM_BTN_':
+            return { ...state, custombtn: action.data }
+
         case 'ENERGY_DAILY_':
             return { ...state, energydaily: action.data }
         case 'SHIFT_DAILY_':

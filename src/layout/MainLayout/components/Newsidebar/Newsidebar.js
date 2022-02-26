@@ -1,14 +1,13 @@
 
-import { withRouter } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { withRouter, Link } from 'react-router-dom';
+// import { useHistory } from 'react-router';
 import "./style.css";
 function Newsidebar() {
-    const history = useHistory();
 
-    const handleSignOut = () => {
-        localStorage.removeItem("auth-token")
-        history.push("/")
-    }
+    // const handleSignOut = () => {
+    //     localStorage.removeItem("auth-token")
+    //     history.push("/")
+    // }
     return (
         <>
             <div className="sidebar">
@@ -20,45 +19,45 @@ function Newsidebar() {
                 </div>
                 <ul className="nav-list">
                     <li>
-                        <a href="https://maxbyte.co/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to={{ pathname: "https://maxbyte.co/" }} target="_blank">
                             <i className='bx bx-grid-alt'></i>
                             <span className="links_name">Home</span>
-                        </a>
+                        </Link>
                         <span className="tooltip">Home</span>
                     </li>
                     <li>
-                        <a href="https://maxbyte.co/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to={{ pathname: "https://maxbyte.co/" }} target="_blank">
                             <i className='bx bx-user' ></i>
                             <span className="links_name">Production</span>
-                        </a>
+                        </Link>
                         <span className="tooltip">Production</span>
                     </li>
                     <li>
-                        <a href="https://maxbyte.co/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to={{ pathname: "https://maxbyte.co/" }} target="_blank">
                             <i className='bx bx-chat' ></i>
                             <span className="links_name">Maintenance</span>
-                        </a>
+                        </Link>
                         <span className="tooltip">Maintenance</span>
                     </li>
                     <li>
-                        <a href="https://maxbyte.co/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to={{ pathname: "https://maxbyte.co/" }} target="_blank">
                             <i className='bx bx-pie-chart-alt-2' ></i>
                             <span className="links_name">Reports</span>
-                        </a>
+                        </Link>
                         <span className="tooltip">Reports</span>
                     </li>
                     <li>
-                        <a href="https://maxbyte.co/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/energy-meter-dashboard">
                             <i className='bx bx-folder' ></i>
                             <span className="links_name">Energy</span>
-                        </a>
+                        </Link>
                         <span className="tooltip">Energy</span>
                     </li>
 
-                  
-                    <li className="profile">
+
+                    {/* <li className="profile">
                         <button onClick={() => handleSignOut()} style={{ cursor: "pointer" }}><i className='bx bx-log-out' id="log_out" ></i></button>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </>
